@@ -5,17 +5,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 /*======================================
-= Application state, actions, and view
+= Initial state
 = (inspired by Hyperapp sample)
 ========================================*/
 
 const initState = { count: 0 }
+
+/*======================================
+= Actions (inspired by Hyperapp sample)
+========================================*/
 
 const actions = {
     increase: (value) => (state) => ({ count: state.count + value }),
     decrease: (value) => (state) => ({ count: state.count - value }),
 }
 
+/*======================================
+= Possible JSX view function
+= (not used in this demo version):
+= --------------------------------------
 const myview = (state, actions) => (
     <div>
         <h1>Hyperapp API demo on React</h1>
@@ -24,6 +32,22 @@ const myview = (state, actions) => (
         <button onClick={() => actions.increase(1)}>+1</button>
     </div>
 )
+========================================*/
+
+/*======================================
+= View using Hyperscript
+= (inspired by Hyperapp sample)
+========================================*/
+
+const h = React.createElement
+
+const myview = (state, actions) =>
+    h("div", {},
+        h("h1", {}, "Hyperapp API demo on React"),
+        h("button", { onClick: () => actions.decrease(1) }, "-1"),
+        h("b", {}, state.count),
+        h("button", { onClick: () => actions.increase(1) }, "+1"),
+    )
 
 /*======================================
 = Start render (React DOM)

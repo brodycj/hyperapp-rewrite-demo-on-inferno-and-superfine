@@ -32,16 +32,20 @@ To make production build:
 
 ## Quick tour
 
-Initial state, actions, and view inspired by Hyperapp demo app in <https://github.com/hyperapp/hyperapp#getting-started>:
+Initial state and actions (inspired by Hyperapp demo app in <https://github.com/hyperapp/hyperapp#getting-started>):
 
-```jsx
+```js
 const initState = { count: 0 }
 
 const actions = {
     increase: (value) => (state) => ({ count: state.count + value }),
     decrease: (value) => (state) => ({ count: state.count - value }),
 }
+```
 
+Possible JSX view function (not used in this demo version):
+
+```jsx
 const myview = (state, actions) => (
     <div>
         <h1>Hyperapp API demo on React</h1>
@@ -52,7 +56,7 @@ const myview = (state, actions) => (
 )
 ```
 
-View without JSX, using Hyperscript (<https://github.com/hyperhype/hyperscript>, see also <https://reactjs.org/docs/react-without-jsx.html> and sample at <https://github.com/jorgebucaran/ultradom#getting-started>):
+View using Hyperscript (<https://github.com/hyperhype/hyperscript>, see also <https://reactjs.org/docs/react-without-jsx.html> and sample at <https://github.com/jorgebucaran/ultradom#getting-started>):
 
 ```js
 const h = React.createElement
