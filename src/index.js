@@ -1,8 +1,7 @@
 /*======================================
-= Needed for React:
+= Needed for Ultradom:
 ========================================*/
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { h, patch } from "ultradom"
 
 /*======================================
 = Initial state
@@ -26,10 +25,10 @@ const actions = {
 = --------------------------------------
 const myview = (state, actions) => (
     <div>
-        <h1>Hyperapp API demo on React</h1>
-        <button onClick={() => actions.decrease(1)}>-1</button>
+        <h1>Hyperapp API demo on Ultradom</h1>
+        <button onclick={() => actions.decrease(1)}>-1</button>
         <b>{state.count}</b>
-        <button onClick={() => actions.increase(1)}>+1</button>
+        <button onclick={() => actions.increase(1)}>+1</button>
     </div>
 )
 ========================================*/
@@ -39,29 +38,29 @@ const myview = (state, actions) => (
 = (inspired by Hyperapp sample)
 ========================================*/
 
-const h = React.createElement
-
 const myview = (state, actions) =>
     h("div", {},
-        h("h1", {}, "Hyperapp API demo on React"),
-        h("button", { onClick: () => actions.decrease(1) }, "-1"),
+        h("h1", {}, "Hyperapp API demo on Ultradom"),
+        h("button", { onclick: () => actions.decrease(1) }, "-1"),
         h("b", {}, state.count),
-        h("button", { onClick: () => actions.increase(1) }, "+1"),
+        h("button", { onclick: () => actions.increase(1) }, "+1"),
     )
 
 /*======================================
-= Start render (React DOM)
+= Start render (Ultradom)
 ========================================*/
 
-startViewRenderReactDOM(initState, actions, myview, document.getElementById('root'))
+startViewRenderUltradom(initState, actions, myview)
 
 /*==========================================
-= Rendering utility function for React DOM
+= Rendering utility function for Ultradom
 = FUTURE TODO extract into utility package
 ============================================*/
 
-function startViewRenderReactDOM(initState, actions, myview, elem) {
-    const render = (s, a) => ReactDOM.render(myview(s, a), elem)
+function startViewRenderUltradom(initState, actions, view) {
+    const myViewState = { element: null }
+
+    const renderViewPatch = (s, a) => patch(view(s, a), myViewState.element)
 
     const mystore = { state: initState }
 
@@ -69,12 +68,13 @@ function startViewRenderReactDOM(initState, actions, myview, elem) {
 
     const myhelper = (af) => (v) => {
         mystore.state = af(v)(mystore.state)
-        render(mystore.state, a2)
+        renderViewPatch(mystore.state, a2)
     }
 
     // actions.keys().map( (k) => a2[k] = myhelper(actions[k]) )
     for (let prop in actions) a2[prop] = myhelper(actions[prop])
 
-    render(mystore.state, a2)
-}
+    myViewState.element = renderViewPatch(mystore.state, a2)
 
+    document.body.appendChild(myViewState.element)
+}

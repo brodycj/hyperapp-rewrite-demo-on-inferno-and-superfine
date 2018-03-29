@@ -1,5 +1,5 @@
 {
-  "name": "hyperapp-api-demo-on-react",
+  "name": "hyperapp-api-demo-on-ultradom",
   "version": "0.0.1-dev+wip",
   "license": "ISC OR MIT",
   "scripts": {
@@ -9,8 +9,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "ultradom": "^2.3.4"
   },
   "devDependencies": {
     "react-scripts": "1.1.1"
