@@ -1,4 +1,4 @@
-# Hyperapp API demo on Ultradom
+# Hyperapp API demo on Inferno and Ultradom
 
 based on <https://github.com/brodybits/hyperapp-api-demo-on-react>
 
@@ -10,14 +10,12 @@ LICENSE: ISC OR MIT
 
 ## About
 
-Simple counter app inspired by Hyperapp demo in <https://github.com/hyperapp/hyperapp#getting-started>
+Simple counter app inspired by Hyperapp demo in <https://github.com/hyperapp/hyperapp#getting-started>, workong on both Inferno (React API) and Ultradom (at the same time)
 
 MOTIVATION:
 
 - <https://medium.com/hyperapp/hyperapp-for-redux-refugees-2507c9dd1ddc>
 - <https://github.com/hyperapp/hyperapp/issues/641> (desire to use Ultradom as a dependency), especially rejected idea in <https://github.com/hyperapp/hyperapp/issues/641#issuecomment-376445893> (remove VDOM from Hyperapp)
-
-See also: <https://github.com/brodybits/hyperapp-api-demo-on-react>
 
 ## Build and run
 
@@ -46,23 +44,23 @@ const actions = {
 }
 ```
 
-Possible JSX view function (not used in this demo version):
+JSX view function for Inferno (React API):
 
 ```jsx
-const myview = (state, actions) => (
+const viewOnReactAPI = (state, actions) => (
     <div>
-        <h1>Hyperapp API demo on Ultradom</h1>
-        <button onclick={() => actions.decrease(1)}>-1</button>
+        <h1>Hyperapp API demo on Inferno (React API)</h1>
+        <button onClick={() => actions.decrease(1)}>-1</button>
         <b>{state.count}</b>
-        <button onclick={() => actions.increase(1)}>+1</button>
+        <button onClick={() => actions.increase(1)}>+1</button>
     </div>
 )
 ```
 
-View using Hyperscript (<https://github.com/hyperhype/hyperscript>, see also <https://reactjs.org/docs/react-without-jsx.html> and sample at <https://github.com/jorgebucaran/ultradom#getting-started>):
+View for Ultradom using Hyperscript (<https://github.com/hyperhype/hyperscript>, see also <https://reactjs.org/docs/react-without-jsx.html> and sample at <https://github.com/jorgebucaran/ultradom#getting-started>):
 
 ```js
-const myview = (state, actions) =>
+const viewOnUltradom = (state, actions) =>
     h("div", {},
         h("h1", {}, "Hyperapp API demo on Ultradom"),
         h("button", { onclick: () => actions.decrease(1) }, "-1"),
@@ -71,15 +69,31 @@ const myview = (state, actions) =>
     )
 ```
 
-Note that in JSX or Hyperscript the button `onclick` property is in Camel case (`onClick`) on React but NOT on Ultradom or Hyperapp (HTML5 button has `onclick` property NOT in Camel case).
+Note that the button `onclick` property is in Camel case (`onClick`) on React API but NOT on Ultradom or Hyperapp (HTML5 button has `onclick` property NOT in Camel case).
+
+To start render on Inferno (React API):
+
+```js
+startViewRenderReactAPI(initState, actions, viewOnReactAPI, document.getElementById('root'))
+```
 
 To start render on Ultradom:
 
 ```js
-startViewRenderUltradom(initState, actions, myview)
+startViewRenderUltradom(initState, actions, viewOnUltradom)
 ```
 
-Rendering utility function for Ultradom:
+Rendering utility function specialized for Inferno (React API):
+
+```js
+function startViewRenderReactAPI(initState, actions, view, elem) {
+    const renderView = (s, a) => render(view(s, a), elem)
+
+    startViewRender(initState, actions, view, renderView, renderView)
+}
+```
+
+Rendering utility function specialized for Ultradom:
 
 ```js
 function startViewRenderUltradom(initState, actions, view) {
@@ -87,6 +101,20 @@ function startViewRenderUltradom(initState, actions, view) {
 
     const renderViewPatch = (s, a) => patch(view(s, a), myViewState.element)
 
+    const renderFirstViewPatch = (s, a) => {
+        myViewState.element = renderViewPatch(s, a)
+
+        document.body.appendChild(myViewState.element)
+    }
+
+    startViewRender(initState, actions, view, renderFirstViewPatch, renderViewPatch)
+}
+```
+
+General view render utility function:
+
+```js
+function startViewRender(initState, actions, view, renderFirstViewPatch, renderViewPatch) {
     const mystore = { state: initState }
 
     const a2 = {}
@@ -99,20 +127,21 @@ function startViewRenderUltradom(initState, actions, view) {
     // actions.keys().map( (k) => a2[k] = myhelper(actions[k]) )
     for (let prop in actions) a2[prop] = myhelper(actions[prop])
 
-    myViewState.element = renderViewPatch(mystore.state, a2)
-
-    document.body.appendChild(myViewState.element)
+    renderFirstViewPatch(mystore.state, a2)
 }
 ```
 
 ## TODO
 
-- rework view render code to use VDOM-specific driver functions for Ultradom, React API, React Native, etc.
-- publish view render modules
+- [(BREAKING) View API changes from "Hyperapp 2.0", hopefully closer to standard functional component API (#5)](https://github.com/brodybits/hyperapp-api-demo-on-ultradom/issues/5)
+- [Dealing with "effects" (#4)](https://github.com/brodybits/hyperapp-api-demo-on-ultradom/issues/4)
+- [Ultradom container element as an argument (#3)](https://github.com/brodybits/hyperapp-api-demo-on-ultradom/issues/3)
+- [CC0 (public domain) API specification (#1)](https://github.com/brodybits/hyperapp-api-demo-on-ultradom/issues/1)
+- [Publish view render function modules (#2)](https://github.com/brodybits/hyperapp-api-demo-on-ultradom/issues/2)
 - demo on codepen
 - integrate with React Native
-- Try on React alternatives such as Inferno, Preact, NervJS
 - TodoMVC app, likely based on <https://github.com/dangvanthanh/hyperapp-todomvc>
 - better styling
+- try on other React alternatives such as Preact, NervJS
 - try with other frameworks from <https://github.com/krausest/js-framework-benchmark>
 - performance comparison with competing solutions such as using Redux

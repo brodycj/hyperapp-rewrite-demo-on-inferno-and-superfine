@@ -1,5 +1,5 @@
 {
-  "name": "hyperapp-api-demo-on-ultradom",
+  "name": "hyperapp-api-demo-on-inferno-and-ultradom",
   "version": "0.0.1-dev+wip",
   "license": "ISC OR MIT",
   "scripts": {
@@ -9,6 +9,8 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "inferno": "^5.0.1",
+    "inferno-create-element": "^5.0.1",
     "ultradom": "^2.3.4"
   },
   "devDependencies": {

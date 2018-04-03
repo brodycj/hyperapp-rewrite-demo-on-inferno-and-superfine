@@ -1,7 +1,18 @@
 /*======================================
-= Needed for Ultradom:
+= Needed for Inferno
 ========================================*/
-import { h, patch } from "ultradom"
+import { createElement } from 'inferno-create-element'
+import { render } from 'inferno'
+
+/*======================================
+= Needed for Ultradom
+========================================*/
+import { h, patch } from 'ultradom'
+
+/*======================================
+= Quick patch needed for Ultradom
+========================================*/
+const React = { createElement: createElement }
 
 /*======================================
 = Initial state
@@ -20,25 +31,23 @@ const actions = {
 }
 
 /*======================================
-= Possible JSX view function
-= (not used in this demo version):
-= --------------------------------------
-const myview = (state, actions) => (
+= JSX view function (React API)
+========================================*/
+const viewOnReactAPI = (state, actions) => (
     <div>
-        <h1>Hyperapp API demo on Ultradom</h1>
-        <button onclick={() => actions.decrease(1)}>-1</button>
+        <h1>Hyperapp API demo on Inferno (React API)</h1>
+        <button onClick={() => actions.decrease(1)}>-1</button>
         <b>{state.count}</b>
-        <button onclick={() => actions.increase(1)}>+1</button>
+        <button onClick={() => actions.increase(1)}>+1</button>
     </div>
 )
-========================================*/
 
 /*======================================
-= View using Hyperscript
+= View on Ultradom using Hyperscript
 = (inspired by Hyperapp sample)
 ========================================*/
 
-const myview = (state, actions) =>
+const viewOnUltradom = (state, actions) =>
     h("div", {},
         h("h1", {}, "Hyperapp API demo on Ultradom"),
         h("button", { onclick: () => actions.decrease(1) }, "-1"),
@@ -47,14 +56,33 @@ const myview = (state, actions) =>
     )
 
 /*======================================
+= Start render on Inferno (React API)
+========================================*/
+
+startViewRenderReactAPI(initState, actions, viewOnReactAPI, document.getElementById('root'))
+
+/*======================================
 = Start render (Ultradom)
 ========================================*/
 
-startViewRenderUltradom(initState, actions, myview)
+startViewRenderUltradom(initState, actions, viewOnUltradom)
 
 /*==========================================
-= Rendering utility function for Ultradom
-= FUTURE TODO extract into utility package
+= Rendering utility function specialized
+= for Inferno (React API)
+= FUTURE TODO: migrate to npm package
+============================================*/
+
+function startViewRenderReactAPI(initState, actions, view, elem) {
+    const renderView = (s, a) => render(view(s, a), elem)
+
+    startViewRender(initState, actions, view, renderView, renderView)
+}
+
+/*==========================================
+= Rendering utility function specialized
+= for Ultradom
+= FUTURE TODO: migrate to npm package
 ============================================*/
 
 function startViewRenderUltradom(initState, actions, view) {
@@ -62,6 +90,21 @@ function startViewRenderUltradom(initState, actions, view) {
 
     const renderViewPatch = (s, a) => patch(view(s, a), myViewState.element)
 
+    const renderFirstViewPatch = (s, a) => {
+        myViewState.element = renderViewPatch(s, a)
+
+        document.body.appendChild(myViewState.element)
+    }
+
+    startViewRender(initState, actions, view, renderFirstViewPatch, renderViewPatch)
+}
+
+/*==========================================
+= General view render utility function
+= TODO: migrate to npm package
+============================================*/
+
+function startViewRender(initState, actions, view, renderFirstViewPatch, renderViewPatch) {
     const mystore = { state: initState }
 
     const a2 = {}
@@ -74,7 +117,5 @@ function startViewRenderUltradom(initState, actions, view) {
     // actions.keys().map( (k) => a2[k] = myhelper(actions[k]) )
     for (let prop in actions) a2[prop] = myhelper(actions[prop])
 
-    myViewState.element = renderViewPatch(mystore.state, a2)
-
-    document.body.appendChild(myViewState.element)
+    renderFirstViewPatch(mystore.state, a2)
 }
