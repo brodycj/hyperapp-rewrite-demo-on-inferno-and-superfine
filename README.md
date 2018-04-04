@@ -82,7 +82,7 @@ startViewRenderReactAPI(initState, actions, viewOnReactAPI, document.getElementB
 To start render on Ultradom:
 
 ```js
-startViewRenderUltradom(initState, actions, viewOnUltradom)
+startViewRenderUltradom(initState, actions, viewOnUltradom, document.body)
 ```
 
 Rendering utility function specialized for Inferno (React API):
@@ -98,7 +98,7 @@ function startViewRenderReactAPI(initState, actions, view, elem) {
 Rendering utility function specialized for Ultradom:
 
 ```js
-function startViewRenderUltradom(initState, actions, view) {
+function startViewRenderUltradom(initState, actions, view, containerElement) {
     const myViewState = { element: null }
 
     const renderViewPatch = (s, a) => patch(view(s, a), myViewState.element)
@@ -106,7 +106,7 @@ function startViewRenderUltradom(initState, actions, view) {
     const renderFirstViewPatch = (s, a) => {
         myViewState.element = renderViewPatch(s, a)
 
-        document.body.appendChild(myViewState.element)
+        containerElement.appendChild(myViewState.element)
     }
 
     startViewRender(initState, actions, view, renderFirstViewPatch, renderViewPatch)
@@ -142,7 +142,6 @@ function startViewRender(initState, actions, view, renderFirstViewPatch, renderV
 Other:
 
 - [(BREAKING) View API changes from "Hyperapp 2.0", hopefully closer to standard functional component API (#5)](https://github.com/brodybits/hyperapp-api-demo-on-inferno-and-ultradom/issues/5)
-- [Ultradom container element as an argument (#3)](https://github.com/brodybits/hyperapp-api-demo-on-ultradom/issues/3)
 - [CC0 (public domain) API specification (#1)](https://github.com/brodybits/hyperapp-api-demo-on-inferno-and-ultradom/issues/1)
 - [Publish view render function modules (#2)](https://github.com/brodybits/hyperapp-api-demo-on-inferno-and-ultradom/issues/2)
 - demo on codepen

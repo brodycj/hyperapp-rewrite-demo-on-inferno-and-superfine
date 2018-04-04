@@ -65,7 +65,7 @@ startViewRenderReactAPI(initState, actions, viewOnReactAPI, document.getElementB
 = Start render (Ultradom)
 ========================================*/
 
-startViewRenderUltradom(initState, actions, viewOnUltradom)
+startViewRenderUltradom(initState, actions, viewOnUltradom, document.body)
 
 /*==========================================
 = Rendering utility function specialized
@@ -85,7 +85,7 @@ function startViewRenderReactAPI(initState, actions, view, elem) {
 = FUTURE TODO: migrate to npm package
 ============================================*/
 
-function startViewRenderUltradom(initState, actions, view) {
+function startViewRenderUltradom(initState, actions, view, containerElement) {
     const myViewState = { element: null }
 
     const renderViewPatch = (s, a) => patch(view(s, a), myViewState.element)
@@ -93,7 +93,7 @@ function startViewRenderUltradom(initState, actions, view) {
     const renderFirstViewPatch = (s, a) => {
         myViewState.element = renderViewPatch(s, a)
 
-        document.body.appendChild(myViewState.element)
+        containerElement.appendChild(myViewState.element)
     }
 
     startViewRender(initState, actions, view, renderFirstViewPatch, renderViewPatch)
