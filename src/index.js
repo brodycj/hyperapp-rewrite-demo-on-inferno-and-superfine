@@ -10,9 +10,10 @@ import { render } from 'inferno'
 import { h, patch } from 'ultradom'
 
 /*======================================
-= Quick patch needed for Ultradom
+= JSX element on Inferno
 ========================================*/
-const React = { createElement: createElement }
+const elem = createElement
+/** @jsx elem */
 
 /*======================================
 = Initial state

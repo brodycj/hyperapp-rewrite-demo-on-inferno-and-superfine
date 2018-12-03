@@ -7,9 +7,11 @@
     "build-dev": "webpack --config webpack.config.js --mode development && cpy index.html dist"
   },
   "babel": {
+    "plugins": [
+      "@babel/plugin-transform-react-jsx"
+    ],
     "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
+      "@babel/preset-env"
     ]
   },
   "dependencies": {
@@ -19,8 +21,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",
+    "@babel/plugin-transform-react-jsx": "^7.2.0",
     "@babel/preset-env": "^7.2.0",
-    "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.4",
     "cpy-cli": "^2.0.0",
     "path": "^0.12.7",
