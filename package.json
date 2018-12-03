@@ -3,10 +3,6 @@
   "version": "0.0.1-dev+wip",
   "license": "ISC OR MIT",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
   },
   "dependencies": {
     "inferno": "^5.0.1",
@@ -14,6 +10,5 @@
     "ultradom": "^2.3.4"
   },
   "devDependencies": {
-    "react-scripts": "1.1.1"
   }
 }
