@@ -3,7 +3,8 @@
   "version": "0.0.1-dev+wip",
   "license": "ISC OR MIT",
   "scripts": {
-    "start": "webpack --config webpack.config.js && cpy index.html dist"
+    "build": "webpack --config webpack.config.js && cpy index.html dist",
+    "build-dev": "webpack --config webpack.config.js --mode development && cpy index.html dist"
   },
   "dependencies": {
     "inferno": "^5.0.1",
