@@ -25,9 +25,10 @@ First step:
 
     npm install
 
-To run in browser:
+To run development build in browser:
 
-    npm start
+* `npm run build-dev`
+* open `dist/index.html` in browser
 
 To make production build:
 
