@@ -33,7 +33,6 @@ const actions = {
 /*======================================
 = JSX view function (React API)
 ========================================*/
-/* ** TBD SKIP FOR NOW:
 const viewOnReactAPI = (state, actions) => (
     <div>
         <h1>Hyperapp API demo on Inferno (React API)</h1>
@@ -42,7 +41,6 @@ const viewOnReactAPI = (state, actions) => (
         <button onClick={() => actions.increase(1)}>+1</button>
     </div>
 )
-// */
 
 /*======================================
 = View on Ultradom using Hyperscript
@@ -61,9 +59,7 @@ const viewOnUltradom = (state, actions) =>
 = Start render on Inferno (React API)
 ========================================*/
 
-/* ** TBD SKIP FOR NOW:
 startViewRenderReactAPI(initState, actions, viewOnReactAPI, document.getElementById('root'))
-// */
 
 /*======================================
 = Start render (Ultradom)
