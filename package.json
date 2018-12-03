@@ -15,8 +15,8 @@
     ]
   },
   "dependencies": {
-    "inferno": "^5.0.1",
-    "inferno-create-element": "^5.0.1",
+    "inferno": "^7.0.1",
+    "inferno-create-element": "^7.0.1",
     "superfine": "^6.0.1"
   },
   "devDependencies": {
