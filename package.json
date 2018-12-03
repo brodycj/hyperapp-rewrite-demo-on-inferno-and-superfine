@@ -3,6 +3,7 @@
   "version": "0.0.1-dev+wip",
   "license": "ISC OR MIT",
   "scripts": {
+    "start": "webpack --config webpack.config.js && cpy index.html dist"
   },
   "dependencies": {
     "inferno": "^5.0.1",
@@ -10,5 +11,9 @@
     "ultradom": "^2.3.4"
   },
   "devDependencies": {
+    "cpy-cli": "^2.0.0",
+    "path": "^0.12.7",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2"
   }
 }
