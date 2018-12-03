@@ -5,9 +5,9 @@ import { createElement } from 'inferno-create-element'
 import { render } from 'inferno'
 
 /*======================================
-= Needed for Ultradom
+= Needed for Superfine
 ========================================*/
-import { h, patch } from 'ultradom'
+import { h, patch } from 'superfine'
 
 /*======================================
 = JSX element on Inferno
@@ -44,13 +44,13 @@ const viewOnReactAPI = (state, actions) => (
 )
 
 /*======================================
-= View on Ultradom using Hyperscript
+= View on Superfine using Hyperscript
 = (inspired by Hyperapp sample)
 ========================================*/
 
-const viewOnUltradom = (state, actions) =>
+const viewOnSuperfine = (state, actions) =>
     h("div", {},
-        h("h1", {}, "Hyperapp API demo on Ultradom"),
+        h("h1", {}, "Hyperapp API demo on Superfine"),
         h("button", { onclick: () => actions.decrease(1) }, "-1"),
         h("b", {}, state.count),
         h("button", { onclick: () => actions.increase(1) }, "+1"),
@@ -63,10 +63,10 @@ const viewOnUltradom = (state, actions) =>
 startViewRenderReactAPI(initState, actions, viewOnReactAPI, document.getElementById('root'))
 
 /*======================================
-= Start render (Ultradom)
+= Start render (Superfine)
 ========================================*/
 
-startViewRenderUltradom(initState, actions, viewOnUltradom, document.body)
+startViewRenderSuperfine(initState, actions, viewOnSuperfine, document.body)
 
 /*==========================================
 = Rendering utility function specialized
@@ -82,14 +82,15 @@ function startViewRenderReactAPI(initState, actions, view, elem) {
 
 /*==========================================
 = Rendering utility function specialized
-= for Ultradom
+= for Superfine
 = FUTURE TODO: migrate to npm package
 ============================================*/
 
-function startViewRenderUltradom(initState, actions, view, containerElement) {
+function startViewRenderSuperfine(initState, actions, view, containerElement) {
     const myViewState = { element: null }
 
-    const renderViewPatch = (s, a) => patch(view(s, a), myViewState.element)
+    const renderViewPatch = (s, a) =>
+        myViewState.element = patch(myViewState.element, view(s, a), containerElement)
 
     const renderFirstViewPatch = (s, a) => {
         myViewState.element = renderViewPatch(s, a)

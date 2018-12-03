@@ -1,5 +1,5 @@
 {
-  "name": "hyperapp-api-demo-on-inferno-and-ultradom",
+  "name": "hyperapp-api-demo-on-inferno-and-superfine",
   "version": "0.0.1-dev+wip",
   "license": "ISC OR MIT",
   "scripts": {
@@ -17,7 +17,7 @@
   "dependencies": {
     "inferno": "^5.0.1",
     "inferno-create-element": "^5.0.1",
-    "ultradom": "^2.3.4"
+    "superfine": "^6.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",
